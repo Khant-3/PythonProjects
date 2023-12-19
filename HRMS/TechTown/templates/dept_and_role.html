@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+    {% block title %}
+    Department and Positions
+    {% endblock %}
+{% block body %}
+{% load static %}
+<style>
+  body{
+    background-image: url("{% static 'bg2.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    margin: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    }
+</style>
+<div class="container">
+    <div class="card text-bg-dark mt-3 p-3">
+        <h4 class="mx-auto mt-3">Department And Positions</h4>
+    <div class="ms-auto me-2 mb-3">
+    <button type="button" class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#adddept">
+        <b>Add Department +</b>
+    </button>
+    <button type="button" class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#addrole">
+        <b>Add Positon +</b>
+    </button>
+    </div>
+  <div class="modal fade text-dark" id="adddept" tabindex="-1" aria-labelledby="adddeptLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="adddeptLabel">Add Department</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="col-6 mx-auto mb-3">
+                    <label class="form-label">Department Name:</label>
+                    <input type="text" name="dname" class="form-control">
+                </div>
+                <div class="col-6 mx-auto mb-3">
+                    <label class="form-label">Floor:</label>
+                    <input type="text" name="floor" class="form-control">
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input type="submit" value="Create" class="btn btn-danger">
+        </div>
+            </form>            
+      </div>
+    </div>
+  </div>
+  <div class="modal text-dark fade" id="addrole" tabindex="-1" aria-labelledby="addroleLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addroleLabel">Add Position</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="col-6 mx-auto mb-3">
+                    <label class="form-label">Position:</label>
+                    <input type="text" name="pname" class="form-control">
+                </div>
+                <div class="col-6 mx-auto mb-3">
+                    <label class="form-label">Department :</label>
+                    <select name="dept" class="form-select">
+                        {% for d in dept %}
+                        <option value="{{d.id}}" class="form-control">{{d.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input type="submit" value="Create" class="btn btn-danger">
+        </div>
+            </form>            
+      </div>
+    </div>
+  </div>
+  <ul class="list-group">
+        {% for d in dept %}
+            <div class="list-group-item list-group-item-danger d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">
+                        <a href="#collapse{{ d.id }}" class="department-link text-decoration-none text-dark" data-bs-toggle="collapse">{{ d.name }}</a>
+                    </div>
+                    {{ d.floor }} floor
+                </div>
+                <span class="badge bg-dark rounded-pill mt-2 me-2">{{ d.position_set.count }}</span>
+                <a href="/dedit/{{d.id}}/" class="btn btn-warning btn-sm me-2 mt-1">
+                    Edit
+                </a>
+                <a href="/ddel/{{d.id}}/" class="btn btn-danger btn-sm mt-1">
+                    Delete
+                </a>
+            </div>
+
+            <div id="collapse{{ d.id }}" class="collapse">
+                <div class="card text-dark card-body mb-2">
+                    <b class="mx-auto">Positions</b>
+                {% for r in role %}
+                {% if r.department == d %}
+                    <div class="d-flex align-items-center mb-2">
+                        <span><b>{{ r.name }}</b></span>
+                    <div class="ms-auto">
+                        <a href="/redit/{{r.id}}/" class="btn btn-warning btn-sm me-2">
+                        Edit
+                        </a>
+                        <a href="/rdel/{{r.id}}/" class="btn btn-danger btn-sm">
+                        Delete
+                        </a>
+                    </div>
+                    </div>
+                {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
+{% endblock %}

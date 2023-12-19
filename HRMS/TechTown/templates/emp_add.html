@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+    {% block title %}
+    Add Employee
+    {% endblock %}
+{% block body %}
+{% load static %}
+<style>
+  body{
+    background-image: url("{% static 'bg5.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    margin: 0;
+    }
+</style>
+<div class="container pt-5 mb-5 d-flex justify-content-center">
+    <div class="card text-bg-dark" style="width: 500px;">
+<div class="card-body">
+    <form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+    <div class="col-12 mb-2">
+        <label class="form-label">Name :</label>
+        <input type="text" name="name" class="form-control" required>
+    </div>
+    <div class="col-12 mb-2">
+        <label class="form-label">Email :</label>
+        <input type="text" name="email" class="form-control" required>
+    </div>
+    <div class="col-12 mb-2">
+        <label class="form-label">Phone Number :</label>
+        <input type="number" name="ph_no" class="form-control">
+    </div>
+    <div class="col-12 mb-2">
+        <label class="form-label">Department :</label>
+        <select name="dept" class="form-select">
+            {% for d in dept %}
+            <option value="{{d.id}}" class="form-control">{{d.name}}</option>
+            {% endfor %}
+        </select> 
+    </div>
+    <div class="col-12 mb-2">
+        <label class="form-label">Position :</label>
+        <select name="role" class="form-select">
+            {% for r in role %}
+            <option value="{{r.id}}" class="form-control">{{r.name}}</option>
+            {% endfor %}
+        </select> 
+    </div>
+    <div class="col-12 mb-2">
+        <label class="form-label">Photo :</label>
+        <input type="file" name="image" class="form-control">
+    </div>
+    <div class="col-12 mb-2">
+        <label class="form-label">Birthday :</label>
+        <input type="date" name="bd" class="form-control">
+    </div>
+    <div class="col-12 mb-2">
+        <label class="form-label">Address :</label>
+        <textarea name="addr" class="form-control"></textarea>
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Salary :</label>
+        <input type="number" name="salary" class="form-control">
+    </div>
+    <div class="col-12">
+        <a href="/emp/list/" class="btn btn-outline-light">Back</a>
+        <button type="submit" class="btn btn-outline-danger">Create</button>
+    </div>
+    </form>
+</div>
+</div>
+</div>
+{% endblock %}

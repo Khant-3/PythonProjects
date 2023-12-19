@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+    {% block title %}
+    Employees
+    {% endblock %}
+{% block body %}
+{% load static %}
+<style>
+  body{
+    background-image: url("{% static 'bg6.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    margin: 0;
+    }
+</style>
+<div class="d-grid col-4 mx-auto mt-3">
+    <a href="/emp/add/" class="btn btn-outline-light"><b>Add Employee +</b></a>
+</div>
+<div class="container-fluid">
+<div class="row">
+{% for emp in emp %}
+<div class="col-sm-3 mt-3">
+<div class="card text-center mb-3" style="width: 18rem;">
+    <img src="{{emp.image.url}}" class="card-img-top" style="height:15vw;" alt="photo">
+    <div class="card-body text-bg-dark" style="height: 240px;">
+      <h5 class="card-title mb-2">{{emp.name}}</h5>
+        <p>{{emp.dept}}</p>
+        <p>Position : {{emp.role}}</p>
+        <p>Salary : {{emp.salary}}$</p>
+      <a href="/emp/detail/{{emp.id}}/" class="btn btn-outline-light">Details</a>
+    </div>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}
+    

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+    {% block title %}
+    Employee Detail
+    {% endblock %}
+{% block body %}
+{% load static %}
+<style>
+  body{
+    background-image: url("{% static 'bg6.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    margin: 0;
+    }
+</style>
+<div class="container">
+    <div class="card text-bg-dark mt-3 mx-auto mb-3" style="width: 40rem;">
+        <img src="{{emp.image.url}}" class="card-img-top mx-auto" alt="photo" style="height: 25vw;">
+        <div class="card-header text-center">
+            {{emp.name}}
+        </div>
+        <div class="card-body">
+                <p>Email - {{emp.email}}</p>
+                <p>Phone - {{emp.phone}}</p>
+                <p>Department - {{emp.dept}}</p>
+                <p>Positon - {{emp.role}}</p>
+                <p>Birthday - {{emp.birthday}}</p>
+                <p>Address - {{emp.address}}</p>
+                <p>Salary - {{emp.salary}}$</p>
+                <p class="text-disabled">Joined since {{emp.hired_date}}</p>
+            <div class="d-flex justify-content-between mb-3">
+                <a href="/emp/list/" class="btn btn-outline-light btn-sm me-3">Back</a>
+                <a href="/emp/edit/{{emp.id}}/" class="btn btn-outline-warning btn-sm">Edit</a>
+                <a href="/emp/del/{{emp.id}}/" class="btn btn-outline-danger btn-sm ms-auto">Delete</a>
+            </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

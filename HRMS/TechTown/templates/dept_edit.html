@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+    {% block title %}
+    Home
+    {% endblock %}
+{% block body %}
+{% load static %}
+<style>
+  body{
+    background-image: url("{% static 'bg4.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    margin: 0;
+    height: 100vh;
+    }
+</style>
+<div class="container mt-5 p-5">
+    <div class="card text-bg-dark mx-auto" style="border-radius: 15px;">
+    <form method="post"><b>
+        {% csrf_token %}
+        <div class="col-6 mx-auto mb-3 mt-2">
+            <label class="form-label">Department Name:</label>
+            <input value="{{dept.name}}" type="text" name="dname" class="form-control">
+        </div>
+        <div class="col-6 mx-auto mb-3">
+            <label class="form-label">Floor:</label>
+            <input value="{{dept.floor}}" type="text" name="floor" class="form-control">
+        </div>
+        <div class="col-6 mx-auto mb-3">
+            <a href="/dandp/list/" class="btn btn-light">Back</a>
+            <input type="submit" value="Update" class="btn btn-danger">
+        </div>
+    </b></form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+    {% block title %}
+    Edit Employee
+    {% endblock %}
+{% block body %}
+{% load static %}
+<style>
+  body{
+    background-image: url("{% static 'bg5.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    margin: 0;
+    }
+</style>
+<div class="container pt-5 mb-5 d-flex justify-content-center">
+    <div class="card text-bg-dark" style="width: 500px;">
+<div class="card-body">
+    <form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+    <div class="col-12 mb-3">
+        <label class="form-label">Name :</label>
+        <input value="{{emp.name}}" type="text" name="name" class="form-control" required>
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Email :</label>
+        <input value="{{emp.email}}" type="text" name="email" class="form-control" required>
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Phone Number :</label>
+        <input value="{{emp.phone}}" type="number" name="ph_no" class="form-control">
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Department :</label>
+        <select name="dept" class="form-select">
+            {% for d in dept %}
+            <option value="{{d.id}}" {% if d.id == emp.dept.id %}selected{% endif %} class="form-control">{{d.name}}</option>
+            {% endfor %}
+        </select> 
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Position :</label>
+        <select name="role" class="form-select">
+            {% for r in role %}
+            <option value="{{r.id}}" {% if r.id == emp.role.id %}selected{% endif %} class="form-control">{{r.name}}</option>
+            {% endfor %}
+        </select> 
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Photo :</label>
+        <input type="file" name="image" class="form-control">
+        {% if emp.image %}
+        File Uploaded :<a href="{{emp.image.url}}">{{emp.image}}</a>
+        {% endif %}
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Birthday :</label>
+        <input value="{{ emp.birthday|date:'Y-m-d' }}" type="date" name="bd" class="form-control">
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Address :</label>
+        <textarea name="addr" class="form-control">{{emp.address}}</textarea>
+    </div>
+    <div class="col-12 mb-3">
+        <label class="form-label">Salary :</label>
+        <input value="{{emp.salary}}" type="number" name="salary" class="form-control">
+    </div>
+    <div class="col-12">
+        <a href="/emp/detail/{{emp.id}}/" class="btn btn-outline-light">Back</a>
+         <button type="submit" class="btn btn-outline-danger text-light">Update</button>
+    </div>
+    </form>
+</div>
+</div>
+</div>
+{% endblock %}

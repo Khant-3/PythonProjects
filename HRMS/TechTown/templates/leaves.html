@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+    {% block title %}
+        Leaves Report
+    {% endblock %}
+{% block body %}
+{% load static %}
+<style>
+  body{
+    background-image: url("{% static 'bg3.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    margin: 0;
+    height: 100vh;
+    }
+</style>
+<div class="container mt-4">
+    <div class="card text-bg-dark mx-auto p-3">
+    <h4 class="mx-auto text-light"><b>Leave Report</b></h4>
+    <button type="button" class="btn btn-outline-danger text-light ms-auto mb-3" data-bs-toggle="modal" data-bs-target="#addleave">
+        Add a new leave record
+    </button>
+    <table class="table table-bordered table-danger table-hover" style="border:black solid 5px;">
+        <thead>
+            <tr>
+                <th class="text-center">Employee Name</th>
+                <th class="text-center">Type of Leave</th>
+                <th class="text-center">Start Date</th>
+                <th class="text-center">End Date</th>
+                <th class="text-center">Reason</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Action</th>
+            </tr>
+            {% for l in leave %}
+            <tr>
+                <td>{{l.employee}}</td>
+                <td>{{l.leave_type}}</td>
+                <td>{{l.start_date}}</td>
+                <td>{{l.end_date}}</td>
+                <td>{{l.reason}}</td>
+                <td>{{l.status}}</td>
+                <td>
+                    {% if l.status == 'Pending' %}
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#approval{{ l.id }}">
+                        Approval
+                    </button>
+                    {% endif %}
+                    {% if l.status != 'Pending' %}
+                    <a href="/leaves/details/{{l.id}}/{{l.id}}/" class="btn btn-outline-dark btn-sm">Details</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </thead>
+    </table>
+    <div class="modal fade" id="addleave" tabindex="-1" aria-labelledby="addleaveLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 text-dark" id="addleaveLabel">Add Leave</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label>Select Employee :</label>
+                        <select name="employee" class="form-select mb-3">
+                            {% for emp in emp %}
+                            <option value="{{ emp.id }}">{{ emp.name }}</option>
+                            {% endfor %}
+                        </select>
+                    <div class="mb-3">
+                        <label>Select Leave Type :</label>
+                        <select name="leave_type" class="form-select">
+                            {% for lt in leave_type %}
+                            <option value="{{ lt.id }}">{{ lt.leave_type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" name="start_date" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">End Date</label>
+                        <input type="date" name="end_date" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Reason</label>
+                        <textarea name="reason" class="form-control"></textarea>
+                    </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <input type="submit" value="Create" class="btn btn-danger">
+            </div>
+                </form>            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% for l in leave %} 
+    <div class="modal fade" id="approval{{ l.id }}" tabindex="-1" aria-labelledby="approvalLabel{{ l.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="approvalLabel{{ l.id }}">Add Leave</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/leaves/approve/{{l.id}}/">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="hidden" name="leave_id" value="{{ l.id }}">
+                        <label>Action</label>
+                        <select name="action" class="form-select">
+                            <option value="approve">Approve</option>
+                            <option value="reject">Reject</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <input type="submit" value="Submit" class="btn btn-danger">
+            </div>
+                </form>            
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

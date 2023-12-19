@@ -1,0 +1,23 @@
+<nav class="navbar bg-dark border-bottom border-body sticky-sm-top" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-danger mx-auto ms-3" href="#">Tech Town</a>
+      <a class="btn me-3" data-bs-toggle="offcanvas" href="#menu" role="button" aria-controls="menulabel">
+        {% load static %}
+        <img src="{% static 'menubtn.jpg' %}" alt="MENU" height="40px" width="40px">
+      </a>
+    </div>
+</nav>
+<div class="offcanvas text-bg-dark offcanvas-end" tabindex="-1" id="menu" aria-labelledby="menulabel" style="width: 17vw;">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title text-danger" id="menulabel">Tech Town</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div><hr>
+  <div class="offcanvas-body">
+      <a class="text-decoration-none text-light" href="/home/">Home</a><hr>
+      <a class="text-decoration-none text-light" href="/emp/list/">Employees</a><hr>
+      <a class="text-decoration-none text-light" href="/dandp/list/">Departments & Positions</a><hr>
+      <a class="text-decoration-none text-light" href="/leaves/">Leaves</a><hr>
+      <a class="text-decoration-none text-light" href="/logout/">Logout</a><hr>
+    </ul>
+  </div>
+</div>

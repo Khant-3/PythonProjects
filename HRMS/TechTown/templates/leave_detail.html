@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+    {% block title %}
+        Leave Detail
+    {% endblock %}
+{% block body %}
+{% load static %}
+<style>
+  body{
+    background-image: url("{% static 'bg3.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    margin: 0;
+    height: 100vh;
+    }
+</style>
+<div class="container">
+    <div class="card text-bg-danger mt-3 p-3">
+        <h4 class="mx-auto mt-2">{{ leave_approve.leave.employee }}'s Leave</h4>
+        {% if leave_approve %}
+            <p>Leave Type : {{ leave_approve.leave.leave_type }}</p><hr>
+            <p>Start Date : {{ leave_approve.leave.start_date }}</p><hr>
+            <p>End Date : {{ leave_approve.leave.end_date }}</p><hr>
+            <p>Reason : {{ leave_approve.leave.reason }}</p><hr>
+            <p>Status : {{ leave_approve.leave.status }}</p><hr>
+            <p>By {{ leave_approve.approved_by }} on {{ leave_approve.approval_date }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
